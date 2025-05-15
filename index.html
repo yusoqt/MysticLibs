@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>แบบสอบถาม MBTI</title>
+    <script defer src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+            background-image: url('images/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .custom-cursor {
+            cursor: url('images/cursor.png'), auto; 
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen px-4 custom-cursor">
+    <div id="intro-screen" class="max-w-2xl w-full p-8 bg-gray-800/70 rounded-xl shadow-2xl border border-purple-800 my-6">
+        <h1 class="text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 via-purple-600 to-indigo-400 text-center">
+            PersonaLibris
+        </h1>
+        <p class="text-lg text-gray-200 leading-relaxed mb-6 text-center">
+            คุณเดินทางเข้ามาที่ห้องสมุดลึกลับแห่งหนึ่งที่ตั้งอยู่ในส่วนลึกของเมืองเก่า ผ่านประตูที่มีสัญลักษณ์ต่างๆ รู้สึกเหมือนมีบางสิ่งดึงดูดใจให้คุณเข้ามา ความรู้สึกนี้แปลกแต่ก็ไม่น่ากลัว แม้จะมีแสงไฟที่ริบหรี่และเสียงกระทบของหนังสือเก่าที่ดังอยู่ในระยะทางไกล ความเงียบในห้องสมุดแห่งนี้ดูเหมือนจะซ่อนความลับบางอย่างไว้ ในที่นี้คุณจะได้สำรวจคำถามลึกลับที่ท้าทายจิตใจของคุณ ขอต้อนรับเข้าสู่การทดสอบที่เกี่ยวข้องกับบุคลิกภาพของคุณ ที่สามารถบ่งบอกถึงประเภท MBTI ที่แท้จริง
+        </p>
+        <div class="flex justify-center">
+            <button id="start-btn" class="custom-cursor bg-gradient-to-r from-indigo-800 via-purple-800 to-indigo-800 font-semibold 
+            text-lg px-8 py-4 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 hover:shadow-purple-500/30 hover:scale-105 
+            transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400 tracking-wide">
+                🔮 เริ่มการค้นหาตัวตน
+            </button>
+        </div>
+    </div>
+
+    <!-- ส่วนคำถาม (ซ่อนอยู่ตอนเริ่ม) -->
+    <div id="quiz-screen" class="hidden max-w-xl w-full p-6 bg-gray-800/70 rounded-xl shadow-2xl border border-purple-800 my-6">
+        <h1 class="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 via-purple-600 to-indigo-400 text-center">
+            MysticLibrary
+        </h1> 
+        <div id="question-container" class="mb-6 mx-5 items-center"></div>
+        <div class="flex justify-center">
+            <button id="next-btn" class="custom-cursor mx-5 bg-gradient-to-r from-indigo-800 via-purple-800 to-indigo-800 font-semibold 
+            text-lg px-6 py-3 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 hover:shadow-purple-500/30 hover:scale-105 
+            transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-400 w-full tracking-wide">
+                📖 ยืนยัน
+            </button>
+        </div>
+        <!-- result -->
+        <img id="result-image" class="mt-6 w-full h-auto rounded-lg" />
+        <button id="download-btn" 
+        class="custom-cursor mt-4 w-full bg-gradient-to-r from-purple-700 via-indigo-800 to-purple-700 text-white font-semibold 
+                text-lg px-6 py-3 rounded-xl shadow-lg hover:from-purple-600 hover:to-indigo-700 hover:shadow-indigo-500/30 hover:scale-105 
+                transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400 hidden">
+            ⬇️ ดาวน์โหลดรูปผลลัพธ์
+        </button>
+    </div>
+
+    <!-- alert -->
+    <div id="custom-alert" class="fixed inset-0 flex items-center justify-center bg-gray-800/70 custom-cursor hidden">
+        <div class="bg-gray-900 text-yellow-100 p-6 rounded-xl shadow-2xl w-80">
+            <h2 class="text-2xl font-semibold mb-4 text-center">MysticLibrary</h2>
+            <p class="text-lg text-center mb-6">เลือกคำตอบก่อนน้าาาา 🙂</p>
+            <div class="flex justify-center">
+                <button id="close-btn" class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-700 font-semibold 
+                text-lg px-6 py-3 rounded-xl shadow-md hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 custom-cursor">
+                    โอเค 🫡
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById("start-btn");
+        const introScreen = document.getElementById("intro-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+
+        startBtn.addEventListener("click", () => {
+            introScreen.classList.add("hidden");
+            quizScreen.classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
