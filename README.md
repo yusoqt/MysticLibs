@@ -1,4 +1,4 @@
-# MBTI Personality Quiz
+# MysticLibs 📖 ( MBTI Personality Quiz )
 
 This project is a simple MBTI (Myers-Briggs Type Indicator) personality quiz implemented using HTML, CSS, and JavaScript. It presents a series of questions to the user and determines their MBTI personality type based on their answers.
 
